@@ -30,12 +30,12 @@ public class XWall implements IXposedHookZygoteInit, IXposedHookLoadPackage {
 			XposedBridge.log(  "HOOKing " + startupParam.modulePath );
 			
 			try {
-//				Class<?> forwardingOs = XposedHelpers.findClass("libcore.io.ForwardingOs", null);
-				Class<?> forwardingOs = XposedHelpers.findClass("libcore.io.IoBridge", null);
-				XposedBridge.log(  forwardingOs.getName() + " found!" );
-				Method connect = XposedHelpers.findMethodBestMatch( forwardingOs, "connect", FileDescriptor.class, InetAddress.class, Integer.class );
-				XposedBridge.log(  "connect method found!" );
-				XposedBridge.hookMethod( connect, getXcMethodHook() );
+//				Class<?> clazz = XposedHelpers.findClass("libcore.io.ForwardingOs", null);
+				Class<?> clazz = XposedHelpers.findClass("libcore.io.IoBridge", null);
+				XposedBridge.log(  clazz.getName() + " found!" );
+				Method method = XposedHelpers.findMethodBestMatch( clazz, "connect", FileDescriptor.class, InetAddress.class, Integer.class );
+				XposedBridge.log(  method.getName() + " found!" );
+				XposedBridge.hookMethod( method, getXcMethodHook() );
 			} catch (Throwable ex) {
 				XposedBridge.log( ex );
 			}
