@@ -21,26 +21,23 @@ public class XWall implements IXposedHookZygoteInit, IXposedHookLoadPackage {
 	public void initZygote( StartupParam startupParam ) throws Throwable {
 		XposedBridge.log( "Module: " + startupParam.modulePath );
 	
-		if( startupParam.modulePath.contains( XWall.class.getPackage().getName() ) ) {
-
-			configurator = new Configurator();
-			configurator.loadRules();
-			configurator.logRules();
+		configurator = new Configurator();
+		configurator.loadRules();
+		configurator.logRules();
+		
+		XposedBridge.log(  "HOOKing " + startupParam.modulePath );
 			
-			XposedBridge.log(  "HOOKing " + startupParam.modulePath );
-			
-			try {
-//				Class<?> clazz = XposedHelpers.findClass("libcore.io.ForwardingOs", null);
-				Class<?> clazz = XposedHelpers.findClass("libcore.io.IoBridge", null);
-				XposedBridge.log(  clazz.getName() + " found!" );
-				Method method = XposedHelpers.findMethodBestMatch( clazz, "connect", FileDescriptor.class, InetAddress.class, Integer.class );
-				XposedBridge.log(  method.getName() + " found!" );
-				XposedBridge.hookMethod( method, getXcMethodHook() );
-			} catch (Throwable ex) {
-				XposedBridge.log( ex );
-			}
-			
+		try {
+//			Class<?> clazz = XposedHelpers.findClass("libcore.io.ForwardingOs", null);
+			Class<?> clazz = XposedHelpers.findClass("libcore.io.IoBridge", null);
+			XposedBridge.log(  clazz.getName() + " found!" );
+			Method method = XposedHelpers.findMethodBestMatch( clazz, "connect", FileDescriptor.class, InetAddress.class, Integer.class );
+			XposedBridge.log(  method.getName() + " found!" );
+			XposedBridge.hookMethod( method, getXcMethodHook() );
+		} catch (Throwable ex) {
+			XposedBridge.log( ex );
 		}
+			
 	}
 
 	
