@@ -1,4 +1,4 @@
-package de.qbit.android.xwall.util;
+package de.wtfguy.android.xwall.util;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

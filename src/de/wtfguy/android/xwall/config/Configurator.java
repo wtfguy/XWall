@@ -1,10 +1,10 @@
-package de.qbit.android.xwall.config;
+package de.wtfguy.android.xwall.config;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import de.qbit.android.xwall.util.StringUtil;
 import de.robv.android.xposed.XposedBridge;
+import de.wtfguy.android.xwall.util.StringUtil;
 
 public class Configurator {
 

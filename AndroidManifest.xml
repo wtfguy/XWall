@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="de.qbit.android.xwall"
+    package="de.wtfguy.android.xwall"
     android:versionCode="1"
     android:versionName="2.2" >
 
