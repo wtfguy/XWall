@@ -1,5 +1,9 @@
 <resources>
 
-    <string name="app_name">XWall</string>
-
+    <string name="app_name" translatable="false">XWall</string>
+    <string name="app_description">An Application/URL based firewall</string>
+	<string name="app_copyright">Copyright \u00A9 2014–2015 by (wtfguy)</string>
+	<string name="app_version" formatted="false">XWall version: %s (%d)</string>
+	<string name="permission_manage">Manage applications, including killing</string>
+	
 </resources>
