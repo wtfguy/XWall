@@ -6,4 +6,8 @@
 	<string name="app_version" formatted="false">XWall version: %s (%d)</string>
 	<string name="permission_manage">Manage applications, including killing</string>
 	
+	<string name="dialog_button_block">Block</string>
+	<string name="dialog_button_allow">Allow</string>
+	
+	<string name="dialog_alert_title_connect">Connection Alert</string>
 </resources>

@@ -1,8 +1,12 @@
 package de.wtfguy.android.xwall;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
@@ -10,8 +14,9 @@ import android.os.Looper;
 import android.os.RemoteException;
 import android.os.StrictMode;
 import android.os.StrictMode.ThreadPolicy;
-import android.widget.Toast;
+import android.view.WindowManager;
 import de.wtfguy.android.xwall.util.Log;
+import de.wtfguy.android.xwall.util.PopupUtil;
 
 public class XwallService {
 
@@ -110,15 +115,10 @@ public class XwallService {
 	
 	private static final IXwallService.Stub xwallService = new IXwallService.Stub() {
 		
-		@Override
-		public int getVersion() throws RemoteException {
-			return cCurrentVersion;
-		}
-
+		private List<String> blockedURLs = new ArrayList<String>();
 		
 		private Context getContext() {
-			// public static ActivityManagerService self()
-			// frameworks/base/services/java/com/android/server/am/ActivityManagerService.java
+			// public static ActivityManagerService self() frameworks/base/services/java/com/android/server/am/ActivityManagerService.java
 			try {
 				Class<?> cam = Class.forName("com.android.server.am.ActivityManagerService");
 				Object am = cam.getMethod("self").invoke(null);
@@ -131,26 +131,58 @@ public class XwallService {
 			}
 		}
 
+		@Override
+		public int getVersion() throws RemoteException {
+			return cCurrentVersion;
+		}
 		
 		@Override
-		public void showToast( final String text, final int duration ) throws RemoteException {
+		public void showConnectionAlertDialog( final String title, final String positiveValue, final String negativeValue, final String message, final String value ) throws RemoteException {
 			final Context context = getContext();
 			if (context != null && handler != null) {
 				handler.post(new Runnable() {
 					@Override
 					public void run() {
-						// Notify user
-						Toast.makeText(context, text, duration).show();
+						AlertDialog.Builder builder = new AlertDialog.Builder( context );
+						builder.setTitle( title );
+						builder.setIcon( android.R.drawable.ic_dialog_alert );
+						builder.setMessage( message );
+						builder.setPositiveButton( positiveValue, new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								blockedURLs.add( value );
+								log.warn( "Number of blocked URLs: " + blockedURLs.size() );
+							}
+						});
+						builder.setNegativeButton( negativeValue, new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+							}
+						});
+						AlertDialog dialog = builder.create();
+						
+						dialog.getWindow().setType( WindowManager.LayoutParams.TYPE_PHONE );
+						dialog.getWindow().addFlags( WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN );
+						dialog.getWindow().setSoftInputMode( WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN );
+						dialog.setCancelable( false );
+						dialog.setCanceledOnTouchOutside( false );
+						dialog.show();
 					}
 				});
 			}
 		}
-
 		
 		@Override
-		public void showFirewallLearningDialog() throws RemoteException {
-			//TODO create custom Dialog
-			//http://www.mkyong.com/android/android-custom-dialog-example/
+		public void showToast( final String message, final int duration ) throws RemoteException {
+			final Context context = getContext();
+			if (context != null && handler != null) {
+				handler.post(new Runnable() {
+					@Override
+					public void run() {
+						PopupUtil.showToast(context, message, duration);
+					}
+				});
+			}
 		}
 		
 	};

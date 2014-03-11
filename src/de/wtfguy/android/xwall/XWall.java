@@ -30,7 +30,7 @@ public class XWall implements IXposedHookZygoteInit, IXposedHookLoadPackage {
 		
 		registerServices();
 		
-		hook( new HookBlockGuardOsConnect() );
+		hook( new HookBlockGuardOsConnect( null ) );	//TODO get a context from somewhere
 	}
 
 	
@@ -49,9 +49,7 @@ public class XWall implements IXposedHookZygoteInit, IXposedHookLoadPackage {
 			XposedBridge.hookMethod(mMain, new XC_MethodHook() {
 				@Override
 				protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-					
 					XwallService.register();
-					
 				}
 			});
 		} catch (Throwable ex) {

@@ -1,25 +1,24 @@
 package de.wtfguy.android.xwall.util;
 
-import android.os.RemoteException;
+import android.content.Context;
 import android.widget.Toast;
-import de.wtfguy.android.xwall.XwallService;
 
 public class PopupUtil {
-
-	public static void showToastShort( String message, int duration ) throws RemoteException {
-		XwallService.getClient().showToast( message, duration );
+	
+	public static void showToast( Context context, String message, int duration ) {
+		Toast.makeText(context, message, duration).show();
 	}
 	
-	public static void showToastShort( String message ) throws RemoteException {
-		XwallService.getClient().showToast( message, Toast.LENGTH_SHORT );
+	public static void showToastShort( Context context, String message ) {
+		Toast.makeText(context, message, Toast.LENGTH_SHORT ).show();
 	}
 	
-	public static void showToastLong( String message ) throws RemoteException {
-		XwallService.getClient().showToast( message, Toast.LENGTH_LONG );
+	public static void showToastLong( Context context, String message ) {
+		Toast.makeText(context, message, Toast.LENGTH_LONG ).show();
 	}
 	
-	public static void showFirewallLearningDialog() throws RemoteException {
-		XwallService.getClient().showFirewallLearningDialog();
+	public static void showFirewallLearningDialog( Context context ) {
+		//TODO
 	}
 	
 }

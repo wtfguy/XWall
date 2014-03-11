@@ -3,6 +3,7 @@ package de.wtfguy.android.xwall.hook;
 import java.io.FileDescriptor;
 import java.net.InetAddress;
 
+import android.content.Context;
 import de.robv.android.xposed.XC_MethodHook.MethodHookParam;
 import de.wtfguy.android.xwall.util.Log;
 
@@ -14,8 +15,8 @@ public class HookOsConnect extends AbstractHook {
 
 	private Log log = Log.getLogger();
 	
-	public HookOsConnect() {
-		super( "libcore.io.Os", "connect", FileDescriptor.class, InetAddress.class, int.class );
+	public HookOsConnect( Context context ) {
+		super( context, "libcore.io.Os", "connect", FileDescriptor.class, InetAddress.class, int.class );
 	}
 
 	
